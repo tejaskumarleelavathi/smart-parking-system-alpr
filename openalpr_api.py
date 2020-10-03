@@ -10,7 +10,7 @@ import yaml
 import numpy as np
 import cv2
 import cv2 as open_cv
-#import paho.mqtt.client as paho
+import paho.mqtt.client as paho
 
 broker="34.93.196.242"
 port=1883
@@ -73,7 +73,6 @@ def alpr():
         y_min=min(r)
         y_max=max(r)
         cropped_image = frame_crop[y_min:y_max,x_min:x_max]
-        #open_cv.imshow("Cropped",cropped_image)
         open_cv.imwrite('image.jpg',cropped_image)
         
         #sleep 5 sec
@@ -113,8 +112,7 @@ def alpr():
             print('plate cannot be identified')
             print(json.dumps(r.json(), indent=2))
     else:
-        now=datetime.now()
-        #exit_time=now.strftime("%H:%M:%S")
+        now=datetime.now()\
         
         #RETRIEVING DATA
         c.execute("SELECT * FROM stuffToPlot where slot=?",(slot,)) 
