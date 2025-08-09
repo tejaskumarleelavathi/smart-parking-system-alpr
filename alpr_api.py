@@ -3,8 +3,6 @@ import requests
 import base64
 import json
 import cv2
-#from threading import *
-# Sample image file is available at http://plates.openalpr.com/ea7the.jpg
 
 def alpr():
     IMAGE_PATH = 'image.jpg'
@@ -14,8 +12,6 @@ def alpr():
 
     url = 'https://api.openalpr.com/v2/recognize_bytes?recognize_vehicle=1&country=in&secret_key=%s' % (SECRET_KEY)
     r = requests.post(url, data = img_base64)
-
-#print(json.dumps(r.json(), indent=2))
     try:
         print({
                 'plate':r.json()['results'][0]['plate'], 

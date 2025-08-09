@@ -34,8 +34,6 @@ class MotionDetector:
     def detect_motion(self):
         
         y=0
-
-
         f= open("config.txt","r")
         arr = {}
         for _ in range(0,2):
@@ -45,9 +43,6 @@ class MotionDetector:
         f.close()
         url=arr['img_url']
         
-        
-        #capture = open_cv.VideoCapture(self.video)
-        #capture.set(open_cv.CAP_PROP_POS_FRAMES, self.start_frame)
         position_in_seconds=0
         coordinates_data = self.coordinates_data
         logging.debug("coordinates data: %s", coordinates_data)
@@ -91,9 +86,9 @@ class MotionDetector:
             width = int(img.shape[1] * scale_percent / 150)
             height = int(img.shape[0] * scale_percent / 150)
             dim = (width, height)
+
             # resize image
-            resized = open_cv.resize(img, dim, interpolation = open_cv.INTER_AREA)
-            #open_cv.imshow("show",resized)
+            resized = open_cv.resize(img, dim, interpolation = open_cv.INTER_AREA)\
             frame = img
             result=True
 
@@ -101,8 +96,6 @@ class MotionDetector:
             grayed = open_cv.cvtColor(blurred, open_cv.COLOR_BGR2GRAY)
             new_frame = frame.copy()
             logging.debug("new_frame: %s", new_frame)
-
-            #position_in_seconds = capture.get(open_cv.CAP_PROP_POS_MSEC) / 1000.0
             position_in_seconds+=1
 
 
@@ -125,7 +118,8 @@ class MotionDetector:
                             flag=1
                             f.write('%d' % flag)
                             f.close()
-                            #put it in the file
+
+                            #   dump it in the file
                             '''temp = points[y]temp
                             q=temp['coordinates']
                             r=[q[0][0],q[1][0],q[2][0],q[3][0]]
@@ -141,20 +135,13 @@ class MotionDetector:
                         else:
 
                             f= open("file.txt","w+")
-                            
                             f.write('%d ' % index)
                             flag=2
                             f.write('%d' % flag)
                             f.close()
-                            #replace
-                            #thread_1=ALPR()
-                            #thread_1.start()
 
                         alpr_thread = threading.Thread(target=self.alpr_call,args=[])
                         alpr_thread.start()
-
-                        #print(str(index)+"  :"+str(status))
-                            #print(status)
                         times[index] = None
                     continue
 
@@ -180,7 +167,6 @@ class MotionDetector:
             k = open_cv.waitKey(1)
             if k == ord("q"):
                 break
-        #capture.release()
         open_cv.destroyAllWindows()
         alpr_thread.join()
 
